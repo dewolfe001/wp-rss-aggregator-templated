@@ -18,7 +18,8 @@
  
 ## Links
 
+* [Templated Plugin](https://web321.co/our-plugins/rss-templated-aggregator/)
 * [Website](https://wprssaggregator.com)
 * [Premium Addons](https://wprssaggregator.com/upgrade)
-* [Knowledge Base](https://kb.wprssaggregator.com)
-* [WordPress.org Page](https://wordpress.org/plugins/wp-rss-aggregator)
+* [Original Knowledge Base](https://kb.wprssaggregator.com)
+* [Original WordPress.org Page](https://wordpress.org/plugins/wp-rss-aggregator)
