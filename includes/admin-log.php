@@ -1,17 +1,25 @@
 <?php
 
 use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 use RebelCode\Wpra\Core\Logger\ClearableLoggerInterface;
 use RebelCode\Wpra\Core\Logger\FeedLoggerInterface;
 use RebelCode\Wpra\Core\Logger\LogReaderInterface;
 
 const WPRSS_OPTION_CODE_LOG_LEVEL = 'log_level';
-const WPRSS_LOG_LEVEL_SYSTEM = LogLevel::DEBUG;
-const WPRSS_LOG_LEVEL_INFO = LogLevel::INFO;
-const WPRSS_LOG_LEVEL_NOTICE = LogLevel::NOTICE;
-const WPRSS_LOG_LEVEL_WARNING = LogLevel::WARNING;
-const WPRSS_LOG_LEVEL_ERROR = LogLevel::ERROR;
+
+if (class_exists('Psr\\Log\\LogLevel')) {
+    define('WPRSS_LOG_LEVEL_SYSTEM', \Psr\Log\LogLevel::DEBUG);
+    define('WPRSS_LOG_LEVEL_INFO', \Psr\Log\LogLevel::INFO);
+    define('WPRSS_LOG_LEVEL_NOTICE', \Psr\Log\LogLevel::NOTICE);
+    define('WPRSS_LOG_LEVEL_WARNING', \Psr\Log\LogLevel::WARNING);
+    define('WPRSS_LOG_LEVEL_ERROR', \Psr\Log\LogLevel::ERROR);
+} else {
+    define('WPRSS_LOG_LEVEL_SYSTEM', 'debug');
+    define('WPRSS_LOG_LEVEL_INFO', 'info');
+    define('WPRSS_LOG_LEVEL_NOTICE', 'notice');
+    define('WPRSS_LOG_LEVEL_WARNING', 'warning');
+    define('WPRSS_LOG_LEVEL_ERROR', 'error');
+}
 
 const WPRSS_LOG_LEVEL_NONE = WPRSS_LOG_LEVEL_INFO;
 const WPRSS_LOG_LEVEL_DEFAULT = WPRSS_LOG_LEVEL_NONE;
@@ -106,7 +114,7 @@ function wprss_reset_log()
 function wprss_log($message, $src = null, $log_level = null)
 {
     $log_level = ($log_level === null)
-        ? LogLevel::DEBUG
+        ? WPRSS_LOG_LEVEL_SYSTEM
         : $log_level;
 
     wpra_get_logger()->log($log_level, $message);
