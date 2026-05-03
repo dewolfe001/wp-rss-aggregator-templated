@@ -4,7 +4,7 @@
  * Plugin Name: WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds.
- * Version: 4.23.14
+ * Version: 4.23.16
  * Author: RebelCode
  * Author URI: https://www.wprssaggregator.com
  * Text Domain: wprss
@@ -35,7 +35,6 @@
 
 use RebelCode\Wpra\Core\Plugin;
 use RebelCode\Wpra\Core\Modules\WpModule;
-use RebelCode\Wpra\Core\Modules\UpsellModule;
 use RebelCode\Wpra\Core\Modules\TwigModule;
 use RebelCode\Wpra\Core\Modules\ToolsModule;
 use RebelCode\Wpra\Core\Modules\SysInfoToolModule;
@@ -64,7 +63,6 @@ use RebelCode\Wpra\Core\Modules\CustomFeedModule;
 use RebelCode\Wpra\Core\Modules\CoreModule;
 use RebelCode\Wpra\Core\Modules\BulkAddToolModule;
 use RebelCode\Wpra\Core\Modules\BlacklistToolModule;
-use RebelCode\Wpra\Core\Modules\BlackFriday23Module;
 use RebelCode\Wpra\Core\Modules\AssetsModule;
 use RebelCode\Wpra\Core\Modules\AddonsModule;
 use RebelCode\Wpra\Core\ErrorHandler;
@@ -78,7 +76,7 @@ use Psr\Container\ContainerInterface;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.23.14' );
+    define( 'WPRSS_VERSION', '4.23.16' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
@@ -433,14 +431,11 @@ function wpra_modules()
         'tools/reset' => new ResetToolModule(),
         'settings' => new SettingsModule(),
         'licensing' => new LicensingModule(),
-        'upsell' => new UpsellModule(),
         'logging' => new LoggerModule(),
         'i18n' => new I18nModule(),
         'twig' => new TwigModule(),
         'parsedown' => new ParsedownModule(),
         'polylang_compat' => new PolyLangCompatModule(),
-        // temporary modules
-        'bf23' => new BlackFriday23Module(),
     ]);
 }
 
