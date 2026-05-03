@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.23.14] - 2026-05-03
+### Added
+* Added a new `[feed_template]...[/feed_template]` shortcode variant that treats inner shortcode content as an HTML template and replaces RSS/channel tokens per feed item.
+* Added enclosure parsing tokens (`{enclosure_url}`, `{enclosure_type}`, `{enclosure_image}`) including automatic `<img>` output for image/* enclosure MIME types.
+
 ## [4.23.13] - 2024-10-14
 ### Fixed
 * Fixed a security vulnerability that allows subscribers to send a support contact (CVE-2024-9583).

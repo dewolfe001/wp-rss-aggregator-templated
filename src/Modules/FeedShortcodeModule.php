@@ -4,6 +4,7 @@ namespace RebelCode\Wpra\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 use RebelCode\Wpra\Core\Handlers\FeedShortcode\FeedsShortcodeHandler;
+use RebelCode\Wpra\Core\Handlers\FeedShortcode\FeedTemplateShortcodeHandler;
 use RebelCode\Wpra\Core\Handlers\RegisterShortcodeHandler;
 use RebelCode\Wpra\Core\Templates\NullTemplate;
 
@@ -58,6 +59,22 @@ class FeedShortcodeModule implements ModuleInterface
              *
              * @since 4.13
              */
+
+            /*
+             * Shortcode handler for template-based RSS rendering.
+             */
+            'wpra/shortcode/feed_template/handler' => function (ContainerInterface $c) {
+                return new FeedTemplateShortcodeHandler();
+            },
+            /*
+             * Register the [feed_template] shortcode.
+             */
+            'wpra/shortcode/feed_template/handlers/register' => function (ContainerInterface $c) {
+                return new RegisterShortcodeHandler(
+                    ['feed_template'],
+                    $c->get('wpra/shortcode/feed_template/handler')
+                );
+            },
             'wpra/shortcode/feeds/handlers/register' => function (ContainerInterface $c) {
                 return new RegisterShortcodeHandler(
                     $c->get('wpra/shortcode/feeds/names'),
@@ -85,5 +102,6 @@ class FeedShortcodeModule implements ModuleInterface
     public function run(ContainerInterface $c)
     {
         call_user_func($c->get('wpra/shortcode/feeds/handlers/register'));
+        call_user_func($c->get('wpra/shortcode/feed_template/handlers/register'));
     }
 }
