@@ -1,12 +1,12 @@
 <?php /** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
 
 /**
- * Plugin Name: WP RSS Aggregator
+ * Plugin Name: Templated WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
- * Description: Imports and aggregates multiple RSS Feeds.
+ * Description: Imports and aggregates multiple RSS Feeds. Design the look of your output through a shortcode templating system. 
  * Version: 4.23.16
- * Author: RebelCode
- * Author URI: https://www.wprssaggregator.com
+ * Author: dewolfe001
+ * Author URI: https://www.web321.co/
  * Text Domain: wprss
  * Domain Path: /languages/
  * License: GPLv3
