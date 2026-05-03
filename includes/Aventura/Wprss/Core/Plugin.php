@@ -72,10 +72,11 @@ class Plugin extends Plugin\PluginAbstract
                 'target'                    => '_blank',
                 'href'                      => 'https://docs.wprssaggregator.com/category/getting-started/'
             ), $this->__('Getting Started')),
-            'extensions'                => $this->getAnchor(array(
+            'donate'                    => $this->getAnchor(array(
                 'target'                    => '_blank',
-                'href'                      => 'https://www.wprssaggregator.com/extensions/'
-            ), $this->__('Extensions'))
+                'rel'                       => 'noopener noreferrer',
+                'href'                      => 'https://paypal.me/web321co/20'
+            ), $this->__('Donate'))
         )))->getData('links');
     }
 
