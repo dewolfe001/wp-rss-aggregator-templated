@@ -16,6 +16,10 @@
 * PHP `simplexml` extension
 * WordPress 4.8+
  
+## Documentation
+
+* [Feed template shortcode](docs/feed-template-shortcode.md)
+
 ## Links
 
 * [Templated Plugin](https://web321.co/our-plugins/rss-templated-aggregator/)
