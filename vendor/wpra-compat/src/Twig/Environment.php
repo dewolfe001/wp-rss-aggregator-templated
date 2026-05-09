@@ -38,6 +38,19 @@ class Environment
         throw new \RuntimeException(sprintf('Twig extension "%s" is not registered', $name));
     }
 
+    public function load($name)
+    {
+        if (!$this->loader || !method_exists($this->loader, 'getSourceContext')) {
+            throw new LoaderError(sprintf('Cannot load Twig template "%s"', $name));
+        }
+
+        // Load the source now so missing templates fail before a wrapper is returned,
+        // matching Twig's behavior closely enough for existence checks.
+        $this->loader->getSourceContext($name);
+
+        return new TemplateWrapper($this, $name);
+    }
+
     public function render($name, array $context = array())
     {
         if (!$this->loader || !method_exists($this->loader, 'getSourceContext')) {
