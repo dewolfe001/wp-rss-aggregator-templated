@@ -199,6 +199,7 @@ wprss_autoloader()->add('RebelCode\\Wpra\\Core', WPRSS_DIR . 'src');
 wprss_autoloader()->add('RebelCode\\Entities', WPRSS_DIR . 'lib/Entities');
 wprss_autoloader()->add('Psr\\Container', WPRSS_DIR . 'vendor/wpra-compat/src');
 wprss_autoloader()->add('Interop\\Container', WPRSS_DIR . 'vendor/wpra-compat/src');
+wprss_autoloader()->add('Dhii\\Di', WPRSS_DIR . 'vendor/wpra-compat/src');
 
 /* Only function definitions, no effect! */
 require_once(WPRSS_INC . 'functions.php');

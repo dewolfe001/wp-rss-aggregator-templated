@@ -4,6 +4,8 @@ namespace Aventura\Wprss\Core\Plugin\Di;
 
 use Exception as BaseException;
 use Dhii\Di\AbstractCompositeContainer;
+use Dhii\Di\Exception\ContainerException;
+use Dhii\Di\Exception\NotFoundException;
 use Dhii\Di\ParentAwareContainerInterface;
 use Interop\Container\ContainerInterface as BaseContainerInterface;
 
