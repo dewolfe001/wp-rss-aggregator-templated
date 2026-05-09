@@ -71,6 +71,14 @@ class Loader {
 		$relativePath = $this->getClassRelativePath($class);
 		if ($path = $this->findClassFile($relativePath, $basePath)) {
 			include_once($path);
+			return;
+		}
+
+		if ($namespace = $this->matchPsr4Namespace($class)) {
+			$relativePath = $this->getClassRelativePathForNamespace($class, $namespace);
+			if ($path = $this->findClassFile($relativePath, $basePath)) {
+				include_once($path);
+			}
 		}
 	}
 
@@ -130,6 +138,23 @@ class Loader {
 		foreach ($this->getPsr4Namespaces() as $_ns => $_basePath) {
 			if ( $this->matchNamespace( $_ns, $class ) ) {
 				return $_basePath;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Matches the class against the registered PSR-4 namespaces and returns the namespace.
+	 *
+	 * @see matchPsr4()
+	 * @param string $class Class name to match.
+	 * @return string|null Matching PSR-4 namespace, or null if no match.
+	 */
+	public function matchPsr4Namespace($class) {
+		foreach ($this->getPsr4Namespaces() as $_ns => $_basePath) {
+			if ( $this->matchNamespace( $_ns, $class ) ) {
+				return $_ns;
 			}
 		}
 
@@ -217,6 +242,26 @@ class Loader {
 	 */
 	public function getClassRelativePath($class) {
 		$class = $this->normalizeClassName($class);
+		$path = str_replace(array('\\', '_'), DIRECTORY_SEPARATOR, $class);
+
+		return $path;
+	}
+
+	/**
+	 * Deduces the PSR-4 relative path to the file of a class for a namespace.
+	 *
+	 * @param string $class Name of the class.
+	 * @param string $namespace Matching PSR-4 namespace.
+	 * @return string The namespace-relative path, without extension.
+	 */
+	public function getClassRelativePathForNamespace($class, $namespace) {
+		$class = $this->normalizeClassName($class);
+		$namespace = $this->normalizeClassName($namespace);
+
+		if (strpos($class, $namespace) === 0) {
+			$class = ltrim(substr($class, strlen($namespace)), '\\');
+		}
+
 		$path = str_replace(array('\\', '_'), DIRECTORY_SEPARATOR, $class);
 
 		return $path;

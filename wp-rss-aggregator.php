@@ -4,7 +4,7 @@
  * Plugin Name: Templated WP RSS Aggregator
  * Plugin URI: https://www.wprssaggregator.com/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpraplugin
  * Description: Imports and aggregates multiple RSS Feeds. Design the look of your output through a shortcode templating system. 
- * Version: 4.23.17
+ * Version: 4.23.18
  * Author: dewolfe001
  * Author URI: https://www.web321.co/
  * Text Domain: wprss
@@ -76,7 +76,7 @@ use Psr\Container\ContainerInterface;
 
 // Set the version number of the plugin.
 if( !defined( 'WPRSS_VERSION' ) )
-    define( 'WPRSS_VERSION', '4.23.17' );
+    define( 'WPRSS_VERSION', '4.23.18' );
 
 if( !defined( 'WPRSS_WP_MIN_VERSION' ) )
     define( 'WPRSS_WP_MIN_VERSION', '4.8' );
