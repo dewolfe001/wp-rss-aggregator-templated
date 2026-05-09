@@ -5,7 +5,10 @@
 /nbproject/
 /.vscode/
 /docker/
-/vendor/
+/vendor/*
+!/vendor/autoload.php
+!/vendor/wpra-compat/
+!/vendor/wpra-compat/**
 /releases/
 /build/
 /node_modules/
