@@ -34,13 +34,23 @@ Use tokens inside the shortcode body. Tokens are replaced for each feed item bef
 | Token | Description | Escaping |
 | --- | --- | --- |
 | `{title}` | Feed item title. | HTML escaped. |
+| `{itunes:title}` / `{itunes_title}` | iTunes item title from `<itunes:title>`, when present. | HTML escaped. |
 | `{link}` | Feed item URL. | URL escaped. |
 | `{description}` | Feed item description/content summary. | Sanitized with WordPress post HTML rules. |
+| `{itunes:summary}` / `{itunes_summary}` | iTunes item summary from `<itunes:summary>`, when present. | Sanitized with WordPress post HTML rules. |
+| `{content:encoded}` / `{content_encoded}` | Full content from `<content:encoded>`, when present. | Sanitized with WordPress post HTML rules. |
 | `{author}` | Item author name, when available. | HTML escaped. |
+| `{itunes:author}` / `{itunes_author}` | iTunes item author from `<itunes:author>`, when present. | HTML escaped. |
 | `{category}` | First category label, when available. | HTML escaped. |
 | `{guid}` | Item ID/GUID. | HTML escaped. |
+| `{guid_isPermaLink}` | `isPermaLink` attribute from `<guid>`, when present. | HTML escaped. |
 | `{pubDate}` | Item publication date formatted using the site's WordPress date and time settings. | HTML escaped. |
 | `{pubDate_iso}` | Item publication date in ISO-8601 format for use in attributes such as `<time datetime="...">`. | Attribute escaped. |
+| `{itunes:duration}` / `{itunes_duration}` | iTunes episode duration from `<itunes:duration>`, when present. | HTML escaped. |
+| `{itunes:keywords}` / `{itunes_keywords}` | iTunes keywords from `<itunes:keywords>`, when present. | HTML escaped. |
+| `{itunes:episode}` / `{itunes_episode}` | iTunes episode number from `<itunes:episode>`, when present. | HTML escaped. |
+| `{itunes:episodeType}` / `{itunes_episodeType}` / `{itunes_episode_type}` | iTunes episode type from `<itunes:episodeType>`, when present. | HTML escaped. |
+| `{itunes:explicit}` / `{itunes_explicit}` | iTunes explicit flag from `<itunes:explicit>`, when present. | HTML escaped. |
 | `{source}` | Source value reported by the feed item, when available. | HTML escaped. |
 
 ### Channel tokens
@@ -67,6 +77,7 @@ Use tokens inside the shortcode body. Tokens are replaced for each feed item bef
 | Token | Description | Escaping |
 | --- | --- | --- |
 | `{enclosure_url}` | URL for the item's enclosure, when present. | URL escaped. |
+| `{enclosure_length}` | Length attribute for the item's enclosure, when present. | HTML escaped. |
 | `{enclosure_type}` | Lowercase media type for the enclosure, when present. | HTML escaped. |
 | `{enclosure_image}` | Complete lazy-loaded `<img>` tag when the enclosure type starts with `image/`; otherwise empty. | The image URL and alt text are escaped before the tag is built. |
 

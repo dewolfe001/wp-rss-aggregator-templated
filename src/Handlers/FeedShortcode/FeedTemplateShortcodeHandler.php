@@ -7,6 +7,9 @@ namespace RebelCode\Wpra\Core\Handlers\FeedShortcode;
  */
 class FeedTemplateShortcodeHandler
 {
+    const NAMESPACE_ITUNES = 'http://www.itunes.com/dtds/podcast-1.0.dtd';
+    const NAMESPACE_CONTENT = 'http://purl.org/rss/1.0/modules/content/';
+
     /**
      * @param array $atts Shortcode attributes.
      * @param string|null $content Shortcode inner template.
@@ -71,13 +74,28 @@ class FeedTemplateShortcodeHandler
                 $categoryLabel = (string) $categories[0]->get_label();
             }
 
+            $itunesTitle = self::getFirstItemTagData($item, [self::NAMESPACE_ITUNES], 'title');
+            $itunesSummary = self::getFirstItemTagData($item, [self::NAMESPACE_ITUNES], 'summary');
+            $contentEncoded = self::getFirstItemTagData($item, [self::NAMESPACE_CONTENT], 'encoded');
+            $itunesAuthor = self::getFirstItemTagData($item, [self::NAMESPACE_ITUNES], 'author');
+            $itunesDuration = self::getFirstItemTagData($item, [self::NAMESPACE_ITUNES], 'duration');
+            $itunesKeywords = self::getFirstItemTagData($item, [self::NAMESPACE_ITUNES], 'keywords');
+            $itunesEpisode = self::getFirstItemTagData($item, [self::NAMESPACE_ITUNES], 'episode');
+            $itunesEpisodeType = self::getFirstItemTagData($item, [self::NAMESPACE_ITUNES], 'episodeType');
+            $itunesExplicit = self::getFirstItemTagData($item, [self::NAMESPACE_ITUNES], 'explicit');
+            $guidIsPermalink = self::getFirstItemTagAttribute($item, [''], 'guid', '', 'isPermaLink');
+
             $enclosure = $item->get_enclosure();
             $enclosureUrl = '';
             $enclosureType = '';
+            $enclosureLength = '';
             $enclosureImage = '';
             if ($enclosure) {
                 $enclosureUrl = (string) $enclosure->get_link();
                 $enclosureType = strtolower((string) $enclosure->get_type());
+                if (method_exists($enclosure, 'get_length')) {
+                    $enclosureLength = (string) $enclosure->get_length();
+                }
                 if ($enclosureUrl !== '' && strpos($enclosureType, 'image/') === 0) {
                     $enclosureImage = sprintf(
                         '<img src="%s" alt="%s" loading="lazy" />',
@@ -93,13 +111,33 @@ class FeedTemplateShortcodeHandler
 
             $tokenValues = [
                 '{title}' => esc_html($itemTitle),
+                '{itunes:title}' => esc_html($itunesTitle),
+                '{itunes_title}' => esc_html($itunesTitle),
                 '{link}' => esc_url($itemLink),
                 '{description}' => wp_kses_post($itemDescription),
+                '{itunes:summary}' => wp_kses_post($itunesSummary),
+                '{itunes_summary}' => wp_kses_post($itunesSummary),
+                '{content:encoded}' => wp_kses_post($contentEncoded),
+                '{content_encoded}' => wp_kses_post($contentEncoded),
                 '{author}' => esc_html($authorName),
+                '{itunes:author}' => esc_html($itunesAuthor),
+                '{itunes_author}' => esc_html($itunesAuthor),
                 '{category}' => esc_html($categoryLabel),
                 '{guid}' => esc_html((string) $item->get_id()),
+                '{guid_isPermaLink}' => esc_html($guidIsPermalink),
                 '{pubDate}' => esc_html($displayDate),
                 '{pubDate_iso}' => esc_attr($isoDate),
+                '{itunes:duration}' => esc_html($itunesDuration),
+                '{itunes_duration}' => esc_html($itunesDuration),
+                '{itunes:keywords}' => esc_html($itunesKeywords),
+                '{itunes_keywords}' => esc_html($itunesKeywords),
+                '{itunes:episode}' => esc_html($itunesEpisode),
+                '{itunes_episode}' => esc_html($itunesEpisode),
+                '{itunes:episodeType}' => esc_html($itunesEpisodeType),
+                '{itunes_episodeType}' => esc_html($itunesEpisodeType),
+                '{itunes_episode_type}' => esc_html($itunesEpisodeType),
+                '{itunes:explicit}' => esc_html($itunesExplicit),
+                '{itunes_explicit}' => esc_html($itunesExplicit),
                 '{source}' => esc_html((string) $item->get_source()),
                 '{channel.title}' => $channel['title'],
                 '{channel.link}' => $channel['link'],
@@ -111,6 +149,7 @@ class FeedTemplateShortcodeHandler
                 '{count}' => (string) $total,
                 '{total}' => (string) $total,
                 '{enclosure_url}' => esc_url($enclosureUrl),
+                '{enclosure_length}' => esc_html($enclosureLength),
                 '{enclosure_type}' => esc_html($enclosureType),
                 '{enclosure_image}' => $enclosureImage,
             ];
@@ -129,4 +168,49 @@ class FeedTemplateShortcodeHandler
 
         return apply_filters('wprss_feed_template_output', do_shortcode($output), $atts);
     }
+
+    /**
+     * Retrieves the first matching XML item tag value.
+     *
+     * @param object $item       SimplePie item instance.
+     * @param array  $namespaces XML namespaces to search.
+     * @param string $tag        Tag name without prefix.
+     *
+     * @return string
+     */
+    private static function getFirstItemTagData($item, array $namespaces, $tag)
+    {
+        foreach ($namespaces as $namespace) {
+            $tags = $item->get_item_tags($namespace, $tag);
+            if (is_array($tags) && isset($tags[0]['data'])) {
+                return (string) $tags[0]['data'];
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * Retrieves the first matching XML item tag attribute value.
+     *
+     * @param object $item               SimplePie item instance.
+     * @param array  $namespaces         XML namespaces to search.
+     * @param string $tag                Tag name without prefix.
+     * @param string $attributeNamespace Attribute namespace.
+     * @param string $attribute          Attribute name.
+     *
+     * @return string
+     */
+    private static function getFirstItemTagAttribute($item, array $namespaces, $tag, $attributeNamespace, $attribute)
+    {
+        foreach ($namespaces as $namespace) {
+            $tags = $item->get_item_tags($namespace, $tag);
+            if (is_array($tags) && isset($tags[0]['attribs'][$attributeNamespace][$attribute])) {
+                return (string) $tags[0]['attribs'][$attributeNamespace][$attribute];
+            }
+        }
+
+        return '';
+    }
+
 }

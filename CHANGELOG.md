@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+* Added feed template shortcode tokens for iTunes podcast item fields, `content:encoded`, the enclosure length attribute, and the GUID permalink flag.
+
 ## [4.23.14] - 2026-05-03
 ### Added
 * Added a new `[feed_template]...[/feed_template]` shortcode variant that treats inner shortcode content as an HTML template and replaces RSS/channel tokens per feed item.
